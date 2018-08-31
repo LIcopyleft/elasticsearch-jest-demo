@@ -12,36 +12,18 @@ import io.searchbox.core.*;
 import io.searchbox.core.SearchResult.Hit;
 import io.searchbox.indices.*;
 import com.github.sxw.model.Article;
+import io.searchbox.indices.mapping.PutMapping;
+import io.searchbox.indices.type.TypeExist;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 
+import java.io.IOException;
 import java.util.*;
 
 public class JestExample {
-	
-	public static void main(String[] args) throws Exception {
-//		deleteIndex();
-//		createIndex();
-//		bulkIndex();
-		createSearch("性虐");
-		searchAll();
-//		getDocument("article", "article", "1");
-//		getDocument("article","article","2");
-//		getDocument("article","article","3");
-//		updateDocument("article", "article", "3");
-//		getDocument("article", "article", "3");
-//		deleteDocument("article","article","1");
-//		nodesStats();
-//		health();
-//		nodesInfo();
-//		indicesExists();
-//		flush();
-//		optimize();
-//		closeIndex();
-//		clearCache();
-	}
-
 
 	/**
 	 * 将删除所有的索引
@@ -338,7 +320,7 @@ public class JestExample {
 	}
 
 
-	private static void createIndex() throws Exception {
+	private static void createIndexWithContent() throws Exception {
 		JestClient jestClient = JestExample.getJestClient();
 		Article article1 = new Article(1,"高圆圆身上淤青 遭家暴还是玩SM遭性虐？","近日，有媒体拍到高圆圆身上的淤青，腿上还有两块伤疤，引起不少人猜测是遭受家暴。" +
 				"对于遭到家暴的传闻，高圆圆首次作出澄清，称这是因为照顾母亲而留下的伤痕，她跟赵又廷关系好得很。" +
@@ -397,5 +379,88 @@ public class JestExample {
 		 JestClient client = factory.getObject();
 		 return client;
 	}
+
+	public static String createIndex(String indices) throws IOException {
+		JestClient jestClient = JestExample.getJestClient();
+		//判断索引是否存在
+		TypeExist indexExist = new TypeExist.Builder(indices).build();
+		JestResult result = jestClient.execute(indexExist);
+		System.out.println("index exist result " + result.getJsonString());
+		Object indexFound = result.getValue("found");
+
+		if (indexFound != null && indexFound.toString().equals("false")) {
+			//index 不存在,创建 index
+			System.out.println("index found == false");
+			JestResult createIndexresult = jestClient.execute(new CreateIndex.Builder(indices).build());
+			System.out.println("create index:"+createIndexresult.isSucceeded());
+			if(createIndexresult.isSucceeded()) {
+				return "ok";
+			}else{
+				return "create index fail";
+			}
+		}else{
+			return "ok";
+		}
+	}
+
+	public static String createMapping(String indices,String mappingType,String analyzer) throws IOException {
+		JestClient jestClient = JestExample.getJestClient();
+		String message = createIndex(indices);
+		if(!message.equals("ok")){
+			return "create index fail";
+		}
+		//判断mapping是否存在
+		TypeExist typeExist = new TypeExist.Builder(indices).addType(mappingType).build();
+		JestResult mappingResult = jestClient.execute(typeExist);
+		Object mappingFound = mappingResult.getValue("found");
+		if (mappingFound != null && mappingFound.toString().equals("false")) {
+			//索引和mapping不存在可以添加
+			System.out.println("mapping found == false");
+			XContentBuilder builder = XContentFactory.jsonBuilder()
+					.startObject()
+					.startObject(indices)
+					.startObject("properties")
+					.startObject("id").field("type", "integer").field("store", "yes").endObject()
+					.startObject("name").field("type", "string").field("store", "yes").field("indexAnalyzer", analyzer).field("searchAnalyzer", analyzer).endObject()
+					.startObject("time").field("type", "date").field("store", "yes").endObject()
+					.endObject()
+					.endObject()
+					.endObject();
+
+			String mappingString = builder.string();
+			//构造PutMapping
+			PutMapping putMapping = new PutMapping.Builder(indices, mappingType, mappingString).build();
+			JestResult maapingResult = jestClient.execute(putMapping);
+			return maapingResult.getJsonString();
+		}else {
+			return "mapping existing";
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+//		deleteIndex();
+//		createIndex();
+//		bulkIndex();
+//		createSearch("性虐");
+//		searchAll();
+//		getDocument("article", "article", "1");
+//		getDocument("article","article","2");
+//		getDocument("article","article","3");
+//		updateDocument("article", "article", "3");
+//		getDocument("article", "article", "3");
+//		deleteDocument("article","article","1");
+//		nodesStats();
+//		health();
+//		nodesInfo();
+//		indicesExists();
+//		flush();
+//		optimize();
+//		closeIndex();
+//		clearCache();
+		//创建mapping
+		String message = createMapping("bus","bus","ik");
+		System.out.println(message);
+	}
+
 
 }

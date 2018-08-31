@@ -107,4 +107,65 @@ curl -XGET http://127.0.0.1:9200/_cat/indices?v
 }
 
 ```
+### Jest Client对Elasticsearch的操作
+#### 创建索引(index)
+```java
+    public static String createIndex(String indices) throws IOException {
+		JestClient jestClient = JestExample.getJestClient();
+		//判断索引是否存在
+		TypeExist indexExist = new TypeExist.Builder(indices).build();
+		JestResult result = jestClient.execute(indexExist);
+		System.out.println("index exist result " + result.getJsonString());
+		Object indexFound = result.getValue("found");
 
+		if (indexFound != null && indexFound.toString().equals("false")) {
+			//index 不存在,创建 index
+			System.out.println("index found == false");
+			JestResult createIndexresult = jestClient.execute(new CreateIndex.Builder(indices).build());
+			System.out.println("create index:"+createIndexresult.isSucceeded());
+			if(createIndexresult.isSucceeded()) {
+				return "ok";
+			}else{
+				return "create index fail";
+			}
+		}else{
+			return "ok";
+		}
+	}
+```
+#### 创建映射(mapping)
+```java
+    public static String createMapping(String indices,String mappingType,String analyzer) throws IOException {
+		JestClient jestClient = JestExample.getJestClient();
+		String message = createIndex(indices);
+		if(!message.equals("ok")){
+			return "create index fail";
+		}
+		//判断mapping是否存在
+		TypeExist typeExist = new TypeExist.Builder(indices).addType(mappingType).build();
+		JestResult mappingResult = jestClient.execute(typeExist);
+		Object mappingFound = mappingResult.getValue("found");
+		if (mappingFound != null && mappingFound.toString().equals("false")) {
+			//索引和mapping不存在可以添加
+			System.out.println("mapping found == false");
+			XContentBuilder builder = XContentFactory.jsonBuilder()
+					.startObject()
+					.startObject(indices)
+					.startObject("properties")
+					.startObject("id").field("type", "integer").field("store", "yes").endObject()
+					.startObject("name").field("type", "string").field("store", "yes").field("indexAnalyzer", analyzer).field("searchAnalyzer", analyzer).endObject()
+					.startObject("time").field("type", "date").field("store", "yes").endObject()
+					.endObject()
+					.endObject()
+					.endObject();
+
+			String mappingString = builder.string();
+			//构造PutMapping
+			PutMapping putMapping = new PutMapping.Builder(indices, mappingType, mappingString).build();
+			JestResult maapingResult = jestClient.execute(putMapping);
+			return maapingResult.getJsonString();
+		}else {
+			return "mapping existing";
+		}
+	}
+```
