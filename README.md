@@ -1,6 +1,14 @@
-# elasticsearch rest api 快速上手
+# elasticsearch rest api 学习记录
 
-> 注：本文档中除无特别说明，请求方式均为`GET`。所有的请求均在`Sense`中测试通过
+> 注：本文档中demo是基于[elasticsearch-jest-example](https://github.com/ameizi/elasticsearch-jest-example)
+的个人的学习记录
+
+> elasticsearch版本：1.4.1
+
+## 学习记录
+1. [Elasticsearch安装中文分词插件ik](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/ik.md)
+2. [Elasticsearch创建mapping时指定analyzer分词器类型](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/analyzer.md)
+
 
 遵循的格式为
 

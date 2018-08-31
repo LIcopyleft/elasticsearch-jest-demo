@@ -1,8 +1,5 @@
-package net.aimeizi.service;
+package com.github.sxw.service;
 
-import net.aimeizi.model.Article;
-
-import java.util.List;
 import java.util.Map;
 
 /**

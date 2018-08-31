@@ -1,7 +1,7 @@
-package net.aimeizi.controller;
+package com.github.sxw.controller;
 
-import net.aimeizi.model.Article;
-import net.aimeizi.service.ArticleService;
+import com.github.sxw.service.ArticleService;
+import com.github.sxw.model.Article;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,5 +59,4 @@ public class ArticleController {
         }
         return modelAndView;
     }
-
 }

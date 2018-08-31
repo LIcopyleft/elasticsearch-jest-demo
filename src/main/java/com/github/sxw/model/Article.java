@@ -1,4 +1,4 @@
-package net.aimeizi.model;
+package com.github.sxw.model;
 
 import io.searchbox.annotations.JestId;
 

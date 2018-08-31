@@ -1,12 +1,8 @@
-package net.aimeizi.webmagic;
+package com.github.sxw.webmagic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.aimeizi.client.elasticsearch.TransportClient;
-import net.aimeizi.model.Article;
-
-import java.text.SimpleDateFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.github.sxw.client.elasticsearch.TransportClient;
+import com.github.sxw.model.Article;
 
 /**
  * Created by Administrator on 2015/9/11.

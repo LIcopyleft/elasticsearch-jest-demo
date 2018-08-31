@@ -1,6 +1,6 @@
-package net.aimeizi.webmagic;
+package com.github.sxw.webmagic;
 
-import net.aimeizi.model.Article;
+import com.github.sxw.model.Article;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import us.codecraft.webmagic.Page;

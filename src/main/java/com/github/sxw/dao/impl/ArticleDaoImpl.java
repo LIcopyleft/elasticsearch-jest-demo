@@ -1,7 +1,7 @@
-package net.aimeizi.dao.impl;
+package com.github.sxw.dao.impl;
 
-import net.aimeizi.dao.ArticleDao;
-import net.aimeizi.model.Article;
+import com.github.sxw.dao.ArticleDao;
+import com.github.sxw.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;

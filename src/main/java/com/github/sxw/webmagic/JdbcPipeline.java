@@ -1,19 +1,14 @@
-package net.aimeizi.webmagic;
+package com.github.sxw.webmagic;
 
-import net.aimeizi.dao.ArticleDao;
-import net.aimeizi.model.Article;
+import com.github.sxw.dao.ArticleDao;
+import com.github.sxw.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/9/10.

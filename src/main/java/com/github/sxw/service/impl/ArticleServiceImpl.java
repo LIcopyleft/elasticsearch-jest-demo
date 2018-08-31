@@ -1,5 +1,6 @@
-package net.aimeizi.service.impl;
+package com.github.sxw.service.impl;
 
+import com.github.sxw.service.ArticleService;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -8,8 +9,7 @@ import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
-import net.aimeizi.model.Article;
-import net.aimeizi.service.ArticleService;
+import com.github.sxw.model.Article;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;

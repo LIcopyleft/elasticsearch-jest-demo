@@ -1,4 +1,4 @@
-package net.aimeizi.client.jest;
+package com.github.sxw.client.jest;
 
 import com.google.gson.GsonBuilder;
 import io.searchbox.client.JestClient;
@@ -11,12 +11,11 @@ import io.searchbox.cluster.NodesStats;
 import io.searchbox.core.*;
 import io.searchbox.core.SearchResult.Hit;
 import io.searchbox.indices.*;
-import net.aimeizi.model.Article;
+import com.github.sxw.model.Article;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class JestExample {

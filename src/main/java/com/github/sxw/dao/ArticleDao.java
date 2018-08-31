@@ -1,6 +1,6 @@
-package net.aimeizi.dao;
+package com.github.sxw.dao;
 
-import net.aimeizi.model.Article;
+import com.github.sxw.model.Article;
 
 /**
  * Created by Administrator on 2015/9/10.
