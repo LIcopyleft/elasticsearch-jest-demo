@@ -1,8 +1,13 @@
 package com.github.sxw.webmagic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.sxw.client.elasticsearch.TransportClient;
+import com.github.sxw.client.elasticsearch.MyTransportClient;
 import com.github.sxw.model.Article;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.Requests;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 
 /**
  * Created by Administrator on 2015/9/11.
@@ -24,6 +29,13 @@ public class Utils {
     }
 
     /**
+     * 创建mapping
+     * @throws Exception
+     */
+    public static void createArticleMapping() throws Exception {
+        MyTransportClient.createArticleMapping("news","news","ik");
+    }
+    /**
      * 创建索引
      * @param article
      */
@@ -31,7 +43,7 @@ public class Utils {
         // 创建索引
         ObjectMapper mapper = new ObjectMapper();
         try {
-            TransportClient.createIndex("news", "article", mapper.writeValueAsString(article));
+            MyTransportClient.createIndex("news", "article", mapper.writeValueAsString(article));
         }catch (Exception e){
         }
     }
@@ -44,4 +56,7 @@ public class Utils {
     public static String replaceHTML(String str){
         return str!=null?str.replaceAll("\\<.*?>","").replaceAll("&nbsp;",""):"";
     }
+
+
+
 }

@@ -68,8 +68,9 @@ public class GovNewsPageProcesser implements PageProcessor {
         return str!=null?str.replaceAll("\\<.*?>","").replaceAll("&nbsp;",""):"";
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+        //先创建mapping,前提是索引已经才es中存在
+//        Utils.createArticleMapping();
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
         JdbcPipeline jdbcPipeline = (JdbcPipeline)applicationContext.getBean("jdbcPipeline");
         Spider.create(new GovNewsPageProcesser())

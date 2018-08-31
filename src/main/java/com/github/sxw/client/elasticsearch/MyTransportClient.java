@@ -57,7 +57,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
  * @author welcome
  *
  */
-public class TransportClient {
+public class MyTransportClient {
 	
 	/**
 	 * 创建TransportClient
@@ -110,55 +110,6 @@ public class TransportClient {
 		System.out.println(_index+","+_type+","+_id+","+_version);
 	}
 
-//    public static void main(String[] args) throws Exception {
-////        createIndex("book","book",jsonstring);
-////		deleteIndices("article");
-////		deleteIndices("book");
-////		creatJsonStringIndex();
-////		creatMapIndex();
-////		creatBeanIndex();
-////		useXContentBuilderCreatIndex();
-////		deleteIndex("book","book","1");
-////		deleteIndex("book","book","2");
-////		deleteIndex("book","book","3");
-////		updateIndexByDoc("book", "book", "AU-ytzQZ2hJMRScy9rds");
-////		updateIndexByScript("book", "book", "AU-ytzQZ2hJMRScy9rds");
-////		upsertIndex("book", "book", "1");
-////		bulkIndex();
-////		scrollSearchDelete("book", "desc", "语言");
-////		deleteIndex("article","article","1");
-////		deleteIndex("article","article","2");
-////		deleteIndex("article","article","3");
-////		deleteIndices("article");
-////		getIndex("book","book","1");
-////		getIndex("book","book","2");
-////		getIndex("book","book","3");
-////		getIndex("article","article","1");
-////		querySearch("book", "book", "desc", "Node的简单介绍");
-////		querySearch("book", "book", "desc", "语言");
-////		querySearch("book", "book", "desc", "设计");
-////		querySearch("article", "article", "content", "圆圆");
-////		querySearch("book", "book", "desc", "浅出");
-////		querySearch("book", "book", "desc", "语言");
-////		querySearch("book", "book", "desc", "编程");
-////		querySearch("article", "article", "content", "性虐");
-////		multiSearch("圆圆");
-////		count("book","desc","编程");
-////		matchQuery("book","desc","Node的简单介绍");
-////		booleanQuery();
-////		fuzzyLikeQuery();
-////		fuzzyQuery();
-////		matchAllQuery();
-////		prefixQuery();
-////		queryString();
-////		rangeQuery();
-////		termsQuery();
-////		wildcardQuery();
-////		indicesQuery();
-////		regexpQuery();
-////		suggest();
-//    }
-
     public static void main(String[] args) throws Exception {
 	    //创建mapping(指定不同的分词器)
 //        createMapping("college","college","ik");
@@ -203,148 +154,32 @@ public class TransportClient {
     }
 
     /**
-     * bulkIndex
+     * 创建mapping(feid("indexAnalyzer","ik")该字段分词IK索引 ；feid("searchAnalyzer","ik")该字段分词ik查询；具体分词插件请看IK分词插件说明)
+     * @param indices 索引名称；
+     * @param mappingType 索引类型
+     * @param analyzer 分词器类型
      * @throws Exception
      */
-    private static void bulkIndex() throws Exception{
+    public static void createArticleMapping(String indices,String mappingType,String analyzer)throws Exception{
         Client client = createTransportClient();
-        BulkRequestBuilder bulkRequest = client.prepareBulk();
-        bulkRequest.add(client.prepareIndex("book", "book", "3")
-                .setSource(jsonBuilder()
-                        .startObject()
-                        .field("name", "Docker开发实践")
-                        .field("author", "曾金龙 肖新华 刘清")
-                        .field("pubinfo", "人民邮电出版社")
-                        .field("pubtime", "2015-07-01")
-                        .field("desc", "《Docker开发实践》由浅入深地介绍了Docker的实践之道，首先讲解Docker的概念、容器和镜像的相关操作、容器的数据管理等内容，接着通过不同类型的应用说明Docker的实际应用，然后介绍了网络、安全、API、管理工具Fig、Kubernetes、shipyard以及Docker三件套（Machine+Swarm+Compose）等，最后列举了常见镜像、Docker API等内容。")
-                        .endObject()
-                )
-        );
+        new XContentFactory();
 
-        bulkRequest.add(client.prepareIndex("book", "book", "4")
-                .setSource(jsonBuilder()
-                        .startObject()
-                        .field("name", "图灵程序设计丛书：Hadoop基础教程")
-                        .field("author", "张治起")
-                        .field("pubinfo", "人民邮电出版社")
-                        .field("pubtime", "2014-01-01")
-                        .field("desc", "《图灵程序设计丛书：Hadoop基础教程》包括三个主要部分：第1~5章讲述了Hadoop的核心机制及Hadoop的工作模式；第6~7章涵盖了Hadoop更多可操作的内容；第8~11章介绍了Hadoop与其他产品和技术的组合使用。《图灵程序设计丛书：Hadoop基础教程》目的在于帮助读者了解什么是Hadoop，Hadoop是如何工作的，以及如何使用Hadoop从数据中提取有价值的信息，并用它解决大数据问题")
-                        .endObject()
-                )
-        );
-
-        BulkResponse bulkResponse = bulkRequest.execute().actionGet();
-        if (bulkResponse.hasFailures()) {
-            BulkItemResponse[] bulkItemResponse = bulkResponse.getItems();
-            for (int i = 0; i <bulkItemResponse.length ; i++) {
-                System.out.println(bulkItemResponse[i].getItemId()+":"+bulkItemResponse[i].getIndex()+":"+bulkItemResponse[i].getFailureMessage());
-            }
-        }
-    }
-
-
-    /**
-     *
-     * @param index
-     * @param type
-     * @param id
-     * @throws Exception
-     */
-    private static void upsertIndex(String index,String type,String id) throws Exception{
-        Client client = createTransportClient();
-        IndexRequest indexRequest = new IndexRequest(index, type, id)
-                .source(jsonBuilder()
-                        .startObject()
-                        .field("name", "Hadoop权威指南（第3版 修订版）")
-                        .field("author", "Tom White")
-                        .field("pubinfo", "清华大学出版社")
-                        .field("pubtime", "2015-01-01")
-                        .field("desc", "《Hadoop权威指南（第3版 修订版）》通过丰富的案例学习来解释Hadoop的幕后机理，阐述了Hadoop如何解决现实生活中的具体问题。第3版覆盖Hadoop的最新动态，包括新增的MapReduceAPI，以及MapReduce2及其灵活性更强的执行模型（YARN）")
-                        .endObject());
-        UpdateRequest updateRequest = new UpdateRequest(index, type, id)
-                .doc(jsonBuilder()
-                        .startObject()
-                        .field("author", "华东师范大学数据科学与工程学院")
-                        .endObject())
-                .upsert(indexRequest);
-        UpdateResponse response = client.update(updateRequest).get();
-        System.out.println("索引是否更新:"+response.isCreated());
-        System.out.println("****************index ***********************");
-        // Index name
-        String _index = response.getIndex();
-        // Type name
-        String _type = response.getType();
-        // Document ID (generated or not)
-        String _id = response.getId();
-        // Version (if it's the first time you index this document, you will get: 1)
-        long _version = response.getVersion();
-        System.out.println(_index + "," + _type + "," + _id + "," + _version);
-    }
-
-    /**
-     * 更新索引  https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html
-     * @param index
-     * @param type
-     * @param id
-     */
-    private static void updateIndexByScript(String index, String type, String id) throws Exception{
-        Client client = createTransportClient();
-        UpdateResponse response = client.prepareUpdate(index, type, id)
-                .setScript("ctx._source.author = \"闫洪磊\";" +
-                        "ctx._source.name = \"Activiti实战\";" +
-                        "ctx._source.pubinfo = \"机械工业出版社\";" +
-                        "ctx._source.pubtime = \"2015-01-01\";" +
-                        "ctx._source.desc = \"《Activiti实战 》立足于实践，不仅让读者知其然，全面掌握Activiti架构、功能、用法、技巧和最佳实践，广度足够；而且让读者知其所以然，深入理解Activiti的源代码实现、设计模式和PVM，深度也足够。《Activiti实战 》一共四个部分：准备篇（1~2章）介绍了Activiti的概念、特点、应用、体系结构，以及开发环境的搭建和配置；基础篇（3~4章）首先讲解了Activiti Modeler、Activiti Designer两种流程设计工具的详细使用，然后详细讲解了BPMN2.0规范；实战篇（5~14章）系统讲解了Activiti的用法、技巧和最佳实践，包含流程定义、流程实例、任务、子流程、多实例、事件以及监听器等；高级篇（15~21）通过集成WebService、规则引擎、JPA、ESB等各种服务和中间件来阐述了Activiti不仅仅是引擎，实际上是一个BPM平台，最后还通过源代码对它的设计模式及PVM进行了分析。\"", ScriptService.ScriptType.INLINE)
-//				.setScript("ctx._source.author = \"闫洪磊\"", ScriptService.ScriptType.INLINE)
-//				.setScript("ctx._source.name = \"Activiti实战\"", ScriptService.ScriptType.INLINE)
-//				.setScript("ctx._source.pubinfo = \"机械工业出版社\"", ScriptService.ScriptType.INLINE)
-//				.setScript("ctx._source.pubtime = \"2015-01-01\"", ScriptService.ScriptType.INLINE)
-//				.setScript("ctx._source.desc = \"《Activiti实战 》立足于实践，不仅让读者知其然，全面掌握Activiti架构、功能、用法、技巧和最佳实践，广度足够；而且让读者知其所以然，深入理解Activiti的源代码实现、设计模式和PVM，深度也足够。《Activiti实战 》一共四个部分：准备篇（1~2章）介绍了Activiti的概念、特点、应用、体系结构，以及开发环境的搭建和配置；基础篇（3~4章）首先讲解了Activiti Modeler、Activiti Designer两种流程设计工具的详细使用，然后详细讲解了BPMN2.0规范；实战篇（5~14章）系统讲解了Activiti的用法、技巧和最佳实践，包含流程定义、流程实例、任务、子流程、多实例、事件以及监听器等；高级篇（15~21）通过集成WebService、规则引擎、JPA、ESB等各种服务和中间件来阐述了Activiti不仅仅是引擎，实际上是一个BPM平台，最后还通过源代码对它的设计模式及PVM进行了分析。\"", ScriptService.ScriptType.INLINE)
-                .execute()
-                .actionGet();
-        System.out.println("索引是否更新:"+response.isCreated());
-        System.out.println("****************index ***********************");
-        // Index name
-        String _index = response.getIndex();
-        // Type name
-        String _type = response.getType();
-        // Document ID (generated or not)
-        String _id = response.getId();
-        // Version (if it's the first time you index this document, you will get: 1)
-        long _version = response.getVersion();
-        System.out.println(_index + "," + _type + "," + _id + "," + _version);
-    }
-
-    /**
-     * 更新索引
-     * @param index
-     * @param type
-     * @param id
-     */
-    private static void updateIndexByDoc(String index, String type, String id) throws Exception{
-        Client client = createTransportClient();
-        UpdateResponse response = client.prepareUpdate(index, type, id)
-                .setDoc(jsonBuilder()
-                        .startObject()
-                        .field("name", "Hadoop权威指南（第3版 修订版）")
-                        .field("author", "Tom White")
-                        .field("pubinfo", "清华大学出版社")
-                        .field("pubtime", "2015-01-01")
-                        .field("desc", "《Hadoop权威指南（第3版 修订版）》通过丰富的案例学习来解释Hadoop的幕后机理，阐述了Hadoop如何解决现实生活中的具体问题。第3版覆盖Hadoop的最新动态，包括新增的MapReduceAPI，以及MapReduce2及其灵活性更强的执行模型（YARN）")
-                        .endObject())
-                .execute()
-                .actionGet();
-        System.out.println("索引是否更新:"+response.isCreated());
-        System.out.println("****************index ***********************");
-        // Index name
-        String _index = response.getIndex();
-        // Type name
-        String _type = response.getType();
-        // Document ID (generated or not)
-        String _id = response.getId();
-        // Version (if it's the first time you index this document, you will get: 1)
-        long _version = response.getVersion();
-        System.out.println(_index + "," + _type + "," + _id + "," + _version);
+        XContentBuilder builder=XContentFactory.jsonBuilder()
+                .startObject()
+                .startObject(indices)
+                .startObject("properties")
+                .startObject("id").field("type", "integer").field("store", "yes").endObject()
+                .startObject("title").field("type", "string").field("store", "yes").field("indexAnalyzer", analyzer).field("searchAnalyzer", analyzer).endObject()
+                .startObject("content").field("type", "string").field("store", "yes").field("indexAnalyzer", analyzer).field("searchAnalyzer", analyzer).endObject()
+                .startObject("source").field("type", "string").field("store", "yes").field("indexAnalyzer", analyzer).field("searchAnalyzer", analyzer).endObject()
+                .startObject("author").field("type", "string").field("store", "yes").field("indexAnalyzer", analyzer).field("searchAnalyzer", analyzer).endObject()
+                .startObject("url").field("type", "string").field("store", "yes").endObject()
+                .endObject()
+                .endObject()
+                .endObject();
+        PutMappingRequest mapping = Requests.putMappingRequest(indices).type(mappingType).source(builder);
+        client.admin().indices().putMapping(mapping).actionGet();
+        client.close();
     }
 
     /**

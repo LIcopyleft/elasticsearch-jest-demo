@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/jdbc
         http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-       <context:component-scan base-package="net.aimeizi" />
+       <context:component-scan base-package="com.github.sxw" />
        <context:property-placeholder location="classpath*:jdbc.properties"/>
        <!-- 数据库表初始化 -->
        <jdbc:initialize-database data-source="dataSource" enabled="false">
