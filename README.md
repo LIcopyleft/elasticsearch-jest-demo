@@ -12,6 +12,9 @@
 4. [[转载] 死磕 Elasticsearch 方法论：普通程序员高效精进的 10 大狠招！](https://mp.weixin.qq.com/s/stC_xMP1n3aQ-0ZNAc3eQA)
 5. [ELK Stack 认知](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/ELKStack.md)
 6. [Elasticsearch相关基础概念](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/es_base.md)
+7. [全文检索](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/FullTextSearch.md)
+8. [ElasticSearch和kibana版本对应关系](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/KibanaForEsVersion.md)
+9. [termQuery](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/termQuery.md)
 
 ## 学习的博客社区
 1. [铭毅天下](https://blog.csdn.net/laoyang360/article/category/6239824)
@@ -173,5 +176,113 @@ curl -XGET http://127.0.0.1:9200/_cat/indices?v
 		}else {
 			return "mapping existing";
 		}
+	}
+```
+#### 判断索引目录是否存在
+```java
+    /**
+	 * 判断索引目录是否存在
+	 * @throws Exception
+	 */
+	private static JestResult indicesExists(String index) throws Exception {
+		JestClient jestClient = JestExample.getJestClient();
+		IndicesExists indicesExists = new IndicesExists.Builder(index).build();
+		JestResult result = jestClient.execute(indicesExists);
+		return result;
+	}
+```
+存在的话返回:
+```
+{"ok" : true, "found" : true}
+```
+#### 关闭索引
+```java
+    /**
+	 * 关闭索引
+	 * @throws Exception
+	 */
+	private static JestResult closeIndex(String index) throws Exception {
+		JestClient jestClient = JestExample.getJestClient();
+		CloseIndex closeIndex = new CloseIndex.Builder(index).build();
+		JestResult result = jestClient.execute(closeIndex);
+		return result;
+	}
+```
+关闭成功返回:
+```
+{"acknowledged":true}
+```
+访问被关闭的索引:
+```json
+    {
+      "error" : "IndexClosedException[[news] closed]",
+      "status" : 403
+    }
+```
+#### 打开索引
+```java
+    /**
+	 * 打开索引
+	 * @throws Exception
+	 */
+	private static JestResult openIndex(String index) throws Exception {
+		JestClient jestClient = JestExample.getJestClient();
+		OpenIndex openIndex = new OpenIndex.Builder(index).build();
+		JestResult result = jestClient.execute(openIndex);
+		return result;
+	}
+```
+#### 查看节点信息
+```java
+    /**
+	 * 查看节点信息
+	 * @throws Exception
+	 */
+	private static JestResult nodesInfo() throws Exception {
+		JestClient jestClient = JestExample.getJestClient();
+		NodesInfo nodesInfo = new NodesInfo.Builder().build();
+		JestResult result = jestClient.execute(nodesInfo);
+		return result;
+	}
+```
+#### 查看集群健康信息
+```java
+    /**
+	 * 查看集群健康信息
+	 * @throws Exception
+	 */
+	private static JestResult health() throws Exception {
+		JestClient jestClient = JestExample.getJestClient();
+		Health health = new Health.Builder().build();
+		JestResult result = jestClient.execute(health);
+		return result;
+	}
+```
+返回结果:
+```json
+{
+	"cluster_name": "elasticsearch",
+	"status": "yellow",
+	"timed_out": false,
+	"number_of_nodes": 1,
+	"number_of_data_nodes": 1,
+	"active_primary_shards": 25,
+	"active_shards": 25,
+	"relocating_shards": 0,
+	"initializing_shards": 0,
+	"unassigned_shards": 25
+}
+```
+#### 查看节点状态
+```java
+    /**
+	 * 节点状态
+	 * @throws Exception
+	 */
+	private static JestResult nodesStats() throws Exception {
+		JestClient jestClient = JestExample.getJestClient();
+		NodesStats nodesStats = new NodesStats.Builder().build();
+		JestResult result = jestClient.execute(nodesStats);
+		return result;
 	}
 ```
