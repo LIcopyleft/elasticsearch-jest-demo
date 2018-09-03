@@ -8,8 +8,14 @@
 ## 学习记录
 1. [Elasticsearch安装中文分词插件ik](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/ik.md)
 2. [Elasticsearch创建mapping时指定analyzer分词器类型](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/analyzer.md)
-3. [webmagic爬取数据到作为搜索数据来源](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/webmagic.md)
+3. [WebMagic爬取数据到作为搜索数据来源](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/webmagic.md)
+4. [[转载] 死磕 Elasticsearch 方法论：普通程序员高效精进的 10 大狠招！](https://mp.weixin.qq.com/s/stC_xMP1n3aQ-0ZNAc3eQA)
+5. [ELK Stack 认知](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/ELKStack.md)
+6. [Elasticsearch相关基础概念](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/es_base.md)
 
+## 学习的博客社区
+1. [铭毅天下](https://blog.csdn.net/laoyang360/article/category/6239824)
+2. [中科院硕士_姚攀](https://me.csdn.net/napoay)
 
 ### 集群健康查看
 
