@@ -15,6 +15,13 @@
 7. [全文检索](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/FullTextSearch.md)
 8. [ElasticSearch和kibana版本对应关系](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/KibanaForEsVersion.md)
 9. [termQuery](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/termQuery.md)
+10. [[转载]搜索引擎-倒排索引基础知识](https://blog.csdn.net/hguisu/article/details/7962350)
+11. [Linux服务器安装Java](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/linux_java.md)
+12. [Linux服务器安装Elasticsearch](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/linux_elasticsearch.md)
+13. [linux 安装Git及简单配置](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/linux_git.md)
+14. [linux服务器安装elasticsearch的head插件](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/linux_elasticsearch_head_plugin.md)
+15. [linux 安装kibana](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/linux_kibana.md)
+
 
 ## 学习的博客社区
 1. [铭毅天下](https://blog.csdn.net/laoyang360/article/category/6239824)
