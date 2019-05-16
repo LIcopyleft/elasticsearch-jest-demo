@@ -5,6 +5,8 @@
 
 > elasticsearch版本：1.4.1
 
+SpringBoot版本的参考项目：[springboot-elasticsearch](https://github.com/suxiongwei/springboot-elasticsearch)
+
 ## 学习记录
 1. [Elasticsearch安装中文分词插件ik](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/ik.md)
 2. [Elasticsearch创建mapping时指定analyzer分词器类型](https://github.com/suxiongwei/elasticsearch-jest-demo/tree/master/src/main/webapp/md/analyzer.md)
