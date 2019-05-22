@@ -55,10 +55,18 @@ firewall-cmd --reload
 http.cors.enabled: true
 http.cors.allow-origin: "*"
 ```
-9. 运行grunt server来启动head服务
+9. 后台启动grunt server 来启动head服务
 ```
-grunt server 
+nohup grunt server &exit
 ```
+10. 如果想关闭head插件，使用Linux查找进程命令：
+```
+ps aux|grep head
+
+结束进程：
+kill 进程号
+```
+
 输出以下信息证明启动成功
 ```
 Running "connect:server" (connect) task
